@@ -1,13 +1,27 @@
+# 解法1
+# class Solution:
+#     def maxArea(self, height: List[int]) -> int:
+#         maxAreaSize=0
+#         for i in range(len(height)-1):
+#             for j in range(i+1, len(height)):
+#                 if maxAreaSize < min(height[i], height[j])*(j-i):
+#                     maxAreaSize = min(height[i], height[j])*(j-i)
+
+#         return maxAreaSize
+
+#解法2
 class Solution:
     def maxArea(self, height: List[int]) -> int:
-        i, j, area = 0, len(height)-1, 0
-        while(i<j):
-            area = max(area, (j-i) * min(height[i], height[j]))
-            if height[i] > height[j]:
-                j-=1
+        left, right, maxAreaSize = 0, len(height)-1, 0
+        while(left<right):
+            maxAreaSize = max(min(height[left], height[right])*(right-left), maxAreaSize)
+            if height[left]<height[right]:
+                left+=1
             else:
-                i+=1
-        return area
+                right-=1
+
+        return maxAreaSize
+
 
 
 
@@ -16,7 +30,9 @@ class Solution:
 
 # 方法一，暴力穷举，左边遍历0-(len-2),右边遍历1-(len-1)
 
-# 方法二，双指针法
+# 方法二，双指针法(左边指针指向0，右边指针指向末尾，当i<j时都在循环，如果左边<右边，左下标++，否则右下标--，简而言之短边中间靠)
+
+# 详细说明
 #设i<j
 #MIN(height[i], height[j]) * (j-i) 的最大值
 #1. 先i指向0，j指向末尾len-1
